@@ -1,10 +1,15 @@
 #!/bin/sh
 # Maakt "A2 Racer IV.app" in de projectmap: dubbelklikken = het menu.
-# Het menu start de race (a2r4) zodra die geport is; tot dan meldt het dat.
+# Het menu start de race (a2r4). Eerst de HD-plaatjes uit je eigen CD
+# (alleen wat ontbreekt; de eerste keer ~15 min op de GPU): race-textures
+# (tools/make_texture_pack.py) en menu (tools/upscale_menu.py).
+# A2R4_SKIP_UPSCALE=1 slaat dat over.
 # Het icoon (build/A2Racer4.icns, uit A2Racer4.exe van je eigen CD via
 # tools/exe_icon.py) staat niet in git.
 set -e
 cd "$(dirname "$0")/.."
+python3 -I tools/make_texture_pack.py
+python3 -I tools/upscale_menu.py
 APP="A2 Racer IV.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
