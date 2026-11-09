@@ -46,10 +46,15 @@ static const std::map<std::string, std::string>& DefPrefixes() {
 void RegisterSkin(davi::Skin& skin) {
   skin.data_module = "TData";
   skin.default_font = 0;
-  skin.gdi_prefix = [](const std::string& key) {
+  skin.raw_font_index = true;  // MenuCaps "Font=" is a Skin::fonts index as is
+  skin.tgdi_dfm_caption = false;  // DFM captions are component names; [DEFAULT] Caption= is empty
+  // TGDIButtonDefinition pictures: "<prefix>_<up|do|fo|hi|di>.tga".
+  skin.def_link = [](const std::string& key, int state) {
+    static const char* suffix[] = {"up", "do", "fo", "hi", "di"};
     auto& m = DefPrefixes();
     auto it = m.find(key);
-    return it == m.end() ? std::string() : it->second;
+    if (it == m.end() || state < 0 || state > 4) return std::string();
+    return it->second + "_" + suffix[state] + ".tga";
   };
   // TGameMenuScreen.FormCreate 0x49e394 / TfrmCoolDialog: the picture named
   // copy(ClassName, 5, 8) from MenuRcs ("currentc" if there is none).

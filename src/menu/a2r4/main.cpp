@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
   if (!mods_dir.empty()) assets.AddDir(mods_dir);
   assets.AddDir(davi::FindNoCase(game_dir, "MenuData"));
   // Pictures and sounds of the menu: MenuData/MenuRcs.IND/.IMG.
-  if (!assets.AddArchive(davi::FindNoCase(game_dir, "MenuData/MenuRcs.IND")))
+  if (!assets.AddArchive(davi::FindNoCase(game_dir, "MenuData"), "MenuRcs"))
     std::fprintf(stderr, "a2r4-menu: cannot read MenuData/MenuRcs\n");
 
   davi::Skin skin;
@@ -96,7 +96,16 @@ int main(int argc, char** argv) {
   davi::AppConfig cfg;
   cfg.title = "A2 Racer IV";
   cfg.screenshot_path = shot;
+  cfg.child_id = "A2R4";  // the race (a2r4) on SwARc: window handover
   if (const char* fs = std::getenv("A2R4_FULLSCREEN")) cfg.fullscreen = *fs && std::strcmp(fs, "window") && *fs != '0';
+  // Menu in 4K: drawn at the window's own resolution with HD pictures
+  // (tools/upscale_menu.py -> mods/menu/local/hd; own art in mods/menu/hd
+  // wins). F9 switches to the original 800x600 look. Tests:
+  // A2R4_MENU_UPGRADES=0 starts original, A2R4_MENU_SIZE=WxH renders
+  // offscreen at that size.
+  if (const char* u = std::getenv("A2R4_MENU_UPGRADES")) cfg.upgraded = *u != '0';
+  if (!mods_dir.empty()) cfg.hd_dirs = {mods_dir + "/hd", mods_dir + "/local/hd"};
+  if (const char* sz = std::getenv("A2R4_MENU_SIZE")) std::sscanf(sz, "%dx%d", &cfg.render_w, &cfg.render_h);
   if (!app.Init(cfg)) {
     std::fprintf(stderr, "a2r4-menu: cannot open the window: %s\n", SDL_GetError());
     return 1;

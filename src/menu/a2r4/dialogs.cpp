@@ -17,7 +17,7 @@ Dialog::Dialog(Game& g, const std::string& cls) : A2Screen(g, cls) {
   // (next to the 80x75 Cancel) or the single OK.
   if (davi::Widget* ok = form.Get("btnOk1"); ok && !ok->def) {
     ok->def = g.app.skin.Def(cls, form.Get("btnCancel") ? "Data.gdfBtnOkDlg" : "Data.gdfBtnOkSingleDlg");
-    if (ok->def && ok->def->img[0]) ok->r.w = ok->def->w, ok->r.h = ok->def->h;
+    if (SDL_Surface* up = ok->def ? ok->def->Get(davi::GraphicDef::kUp) : nullptr) ok->r.w = up->w, ok->r.h = up->h;
   }
 }
 
@@ -161,7 +161,6 @@ PlayerDialog::PlayerDialog(Game& g) : Dialog(g, "TfrmPlayer") {
   static const char* suffix[] = {"up", "do", "fo", "hi", "di"};
   for (int n = 0; n <= 5; n++) {
     auto d = std::make_unique<davi::GraphicDef>();
-    d->shared = true;
     for (int s = 0; s < davi::GraphicDef::kCount; s++) {
       std::string name = Indexed("pch", n) + "_" + suffix[s] + ".tga";
       if (g.assets.Has(name)) d->img[s] = g.Pic(name);
@@ -200,7 +199,7 @@ void PlayerDialog::Update() {
     }
     b.font = {1, 18, SDL_Color{255, 255, 255, 255}};
     if (slots_.back() == chosen_) game.app.SetFocus(&b);
-    if (b.def && b.def->img[0]) b.r.w = b.def->w, b.r.h = b.def->h;
+    if (SDL_Surface* up = b.def ? b.def->Get(davi::GraphicDef::kUp) : nullptr) b.r.w = up->w, b.r.h = up->h;
   }
   if (chosen_ >= 0 && chosen_ < int(game.players.size()))
     form.SetCaption("lblTextBlock", Fmt(game.Str(9), game.players[chosen_].name));
