@@ -1,3 +1,4 @@
 # MSVC _setjmp3: longjmp (0055B175) springt terug naar het adres na elke aanroep.
 setjmp 0055B084 __setjmp3
 resume 0055B175  # _longjmp: jmp [jmp_buf.eip] naar het setjmp-terugkeerpunt
+replace 004C4330  # mode select: own 4:3 render size (src/game/gfx_resolution.cpp)
