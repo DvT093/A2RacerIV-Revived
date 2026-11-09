@@ -147,6 +147,26 @@ void QuickRaceScreen::Clicked(davi::Widget& w) {
 
 void QuickRaceScreen::Paint(SDL_Surface* canvas, int ox, int oy) {
   for (auto& d : dots_) d.Paint(canvas, ox, oy);
+  // "Ontgrendel deze track..." / "Dit karakter kan je downloaden...": the
+  // original draws them as thin white Arial 14 (MenuCaps) straight over
+  // the photo and the map, hard to read. Upgraded (F9) gives them a dark
+  // rim; the original look keeps them as they were.
+  if (!game.app.Upgraded()) return;
+  for (const char* n : {"lblLocked", "lblCharLocked"}) {
+    davi::Widget* w = form.Get(n);
+    if (!w || !w->visible || w->caption.empty()) continue;
+    davi::TextStyle st{game.app.skin.GetFont(w->font.font), w->font.px, SDL_Color{0, 0, 0, 255}, w->halign,
+                       w->valign, w->wrap};
+    SDL_Rect r{ox + w->r.x, oy + w->r.y, w->r.w, w->r.h};
+    for (int dy = -1; dy <= 1; dy++)
+      for (int dx = -1; dx <= 1; dx++) {
+        if (!dx && !dy) continue;
+        SDL_Rect o{r.x + dx, r.y + dy, r.w, r.h};
+        davi::DrawText(canvas, o, w->caption, st);
+      }
+    st.color = w->font.color;
+    davi::DrawText(canvas, r, w->caption, st);
+  }
 }
 
 // v0FC 0x49bf18
