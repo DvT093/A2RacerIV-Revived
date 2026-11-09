@@ -15,3 +15,8 @@ re/*.c
 re/*_raw.c
 re/next.txt
 re/done_fns.txt
+out_*.log
+run*.log
+app.log
+shots/
+run_*.log
