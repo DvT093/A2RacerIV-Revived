@@ -54,7 +54,8 @@ struct Player {
   int difficulty = 1;  // 0 easy, 1 normal, 2 hard
   bool show_start_info = true;
   int music_volume = 50, fx_volume = 50, voices_volume = 100;
-  int resolution = 3, device = 0;  // 0 keyboard, 1 joypad, 2 joystick, 3 wheel
+  int resolution = 3, device = 0;
+  bool video3d = true;  // Opties > Weergave "3D kaart" (chkVideo3d)  // 0 keyboard, 1 joypad, 2 joystick, 3 wheel
   int keys[7] = {38, 40, 37, 39, 17, 18, 32};  // up down left right extra1-3 (VK)
   int joy_sensitivity = 50, wheel_sensitivity = 50;
   int gamma = 0;

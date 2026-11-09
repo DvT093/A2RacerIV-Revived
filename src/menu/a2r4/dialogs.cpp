@@ -246,8 +246,7 @@ void DeletePlayerDialog::Ask(const std::string& name) { form.SetCaption("lblSure
 // ---- TfrmOptions ----------------------------------------------------------
 
 OptionsDialog::OptionsDialog(Game& g) : Dialog(g, "TfrmOptions") {
-  for (const char* n : {"imgPanel1", "imgPanel2", "imgControl", "imgVideo", "imgSound", "lblClickArea"})
-    form.SetVisible(n, false);
+  for (const char* n : {"imgPanel1", "imgPanel2", "lblClickArea"}) form.SetVisible(n, false);
 }
 
 // GDIFormShow 0x496a8c: a copy of the settings, kept on OK only.
@@ -261,14 +260,29 @@ void OptionsDialog::Show() {
   for (int i = 0; i < 4; i++) form.W(dev[i]).checked = temp_.device == i;
   const char* res[3] = {"optVideoLow", "optVideoMedium", "optVideoHigh"};
   for (int i = 0; i < 3; i++) form.W(res[i]).checked = temp_.resolution == i + 1;
-  form.W("chkVideo3d").checked = temp_.resolution >= 3;
+  // chkVideo3dClick 0x4959c4: with the 3D card "laag" cannot be chosen,
+  // without it "hoog" cannot (0x496684); a clash goes to "normaal".
+  if ((temp_.video3d && temp_.resolution == 1) || (!temp_.video3d && temp_.resolution == 3)) temp_.resolution = 2;
+  for (int i = 0; i < 3; i++) form.W(res[i]).checked = temp_.resolution == i + 1;
+  form.W("chkVideo3d").checked = temp_.video3d;
+  form.SetEnabled("optVideoLow", !temp_.video3d);
+  form.SetEnabled("optVideoHigh", temp_.video3d);
   form.W("chkStartInfoOn").checked = temp_.show_start_info;
   form.W("sldrMusic").pos = temp_.music_volume;
   form.W("sldrSound").pos = temp_.fx_volume;
   form.W("sldrVoice").pos = temp_.voices_volume;
-  // The device picture (opt_keyb / opt_gpad / opt_joys / opt_whee).
-  static const char* pic[4] = {"opt_keyb.bmp", "opt_gpad.bmp", "opt_joys.bmp", "opt_whee.bmp"};
-  form.SetPicture("imgControl", game.Pic(pic[std::clamp(temp_.device, 0, 3)]));
+  // The pictures above the three columns: the device (optKeyboardClick
+  // 0x496480 & co: OPT_KEYB/GPAD/JOYS/WHEE), the detail level
+  // (optVideoLowClick 0x49591c & co: OPT_LOWR/MIDR/HIGR), and at
+  // GDIFormShow 0x496a8c the sound (opt_soun) and the 3D card (opt_3dfx).
+  static const char* dev_pic[4] = {"opt_keyb.bmp", "opt_gpad.bmp", "opt_joys.bmp", "opt_whee.bmp"};
+  static const char* res_pic[3] = {"opt_lowr.bmp", "opt_midr.bmp", "opt_higr.bmp"};
+  form.SetPicture("imgControl", game.Pic(dev_pic[std::clamp(temp_.device, 0, 3)]));
+  form.SetPicture("imgVideo", game.Pic(res_pic[std::clamp(temp_.resolution, 1, 3) - 1]));
+  form.SetPicture("imgSound", game.Pic("opt_soun.bmp"));
+  form.SetPicture("imgVideo3d", game.Pic("opt_3dfx.tga"));
+  for (const char* n : {"imgControl", "imgVideo", "imgSound"}) form.SetVisible(n, true);
+  form.SetVisible("imgVideo3d", temp_.video3d);  // 0x4966c8: only with the 3D card
 }
 
 void OptionsDialog::Button(davi::Widget& w) {
@@ -278,6 +292,8 @@ void OptionsDialog::Button(davi::Widget& w) {
   if (w.name == "optVideoLow") temp_.resolution = 1;
   if (w.name == "optVideoMedium") temp_.resolution = 2;
   if (w.name == "optVideoHigh") temp_.resolution = 3;
+  if (w.name == "chkVideo3d") temp_.video3d = w.checked;
+  if (w.name.rfind("opt", 0) == 0 || w.name == "chkVideo3d") Show();  // pictures and choices follow
   if (w.name == "chkStartInfoOn") temp_.show_start_info = w.checked;
   if (w.name == "sldrMusic") {
     temp_.music_volume = w.pos;

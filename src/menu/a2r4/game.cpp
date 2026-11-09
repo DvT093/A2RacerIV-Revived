@@ -162,6 +162,7 @@ void Game::PlayerIo(davi::IniFile& f, const std::string& s, Player& p, bool save
   num("fxvolume", p.fx_volume);
   num("voicesvolume", p.voices_volume);
   num("resolution", p.resolution);
+  flag("video3d", p.video3d);
   num("device", p.device);
   static const char* keys[7] = {"up", "down", "left", "right", "extra1", "extra2", "extra3"};
   for (int k = 0; k < 7; k++) num(keys[k], p.keys[k]);
