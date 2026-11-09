@@ -21,3 +21,4 @@ app.log
 shots/
 run_*.log
 mods/menu/local/
+__pycache__/
