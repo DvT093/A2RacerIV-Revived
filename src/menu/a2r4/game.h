@@ -112,6 +112,10 @@ class Game {
   std::vector<TuneUp> tuneups;
   std::vector<int> qr_tracks, qr_chars, tour_tracks, tour_chars;
   int qr_locked_char = -1, qr_download_char = -1;
+  // FDownloadCharIsAvailable (Menu.exe 0x48e9f8): L0_ANIM.INI has the
+  // section static.ini [QUICKRACE] DOWNLOADSECTION with Count > 0, which
+  // Davilex's car update (the truck, tools/install_extras.py) adds.
+  bool qr_download_available = false;
   std::vector<Player> players;
   int current_player = -1;
   std::map<std::string, davi::Sound> embedded;  // TData sounds ("__wavBtnDown")

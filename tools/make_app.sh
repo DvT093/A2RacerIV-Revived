@@ -10,6 +10,8 @@ set -e
 cd "$(dirname "$0")/.."
 python3 -I tools/make_texture_pack.py
 python3 -I tools/upscale_menu.py
+# De officiële extra's van Davilex (truck, bonustrack), als ze in dl/extras/ liggen.
+XDG_DATA_HOME="$PWD/userdata" python3 -I tools/install_extras.py || true
 APP="A2 Racer IV.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"

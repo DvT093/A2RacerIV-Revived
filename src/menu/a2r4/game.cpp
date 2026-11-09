@@ -116,6 +116,13 @@ bool Game::Load() {
   tour_chars = Ints(stat.Get("TOURRACE", "CHARIX"));
   qr_locked_char = stat.GetInt("QUICKRACE", "LOCKEDCHARIX", -1);
   qr_download_char = stat.GetInt("QUICKRACE", "DOWNLOADCHARIX", -1);
+  {
+    davi::IniFile anim;
+    anim.Load(in.ReadPath("L0_ANIM.INI"));
+    std::string sec = stat.Get("QUICKRACE", "DOWNLOADSECTION");
+    if (sec.empty()) sec = "DOWNLOADCAR";
+    qr_download_available = anim.GetInt(sec, "Count", 0) > 0;
+  }
 
   for (size_t i = 0; i < tracks.size(); i++) {
     std::string n = std::to_string(i);

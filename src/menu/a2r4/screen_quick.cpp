@@ -32,7 +32,10 @@ QuickRaceScreen::QuickRaceScreen(Game& g) : A2Screen(g, "TfrmQuickRace") {
 bool QuickRaceScreen::TrackAvailable(int pos) const {
   if (pos < 0 || pos >= int(game.qr_tracks.size())) return false;
   const Track& t = game.tracks[game.qr_tracks[pos]];
-  if (davi::FindNoCase(game.launcher.install().game_dir, "etappe" + std::to_string(t.indexingame) + ".rmp").empty())
+  // In the install or the overlay (Davilex's bonus track, etappe9).
+  std::string rmp = "etappe" + std::to_string(t.indexingame) + ".rmp";
+  const red::Install& in = game.launcher.install();
+  if (davi::FindNoCase(in.user_dir + "/install", rmp).empty() && davi::FindNoCase(in.game_dir, rmp).empty())
     return false;
   if (!t.IsChase()) return true;
   auto it = std::find(game.tour_tracks.begin(), game.tour_tracks.end(), t.index);
@@ -45,10 +48,11 @@ bool QuickRaceScreen::TrackAvailable(int pos) const {
   return false;
 }
 
-// 0x49ca08: the download character is never there; D.T. Harry (LOCKEDCHARIX)
-// after winning the Tour once.
+// 0x49ca08: the download character when Davilex's car update is installed
+// (Game::qr_download_available); D.T. Harry (LOCKEDCHARIX) after winning
+// the Tour once.
 bool QuickRaceScreen::CharAvailable(int pos) const {
-  if (pos == game.qr_download_char) return false;
+  if (pos == game.qr_download_char) return game.qr_download_available;
   if (pos == game.qr_locked_char) {
     const Player* p = const_cast<Game&>(game).Cur();
     return p && p->supercop;
