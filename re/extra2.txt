@@ -1,0 +1,2 @@
+00486EF4 Caps_A
+00486F48 Caps_ReadCtrl

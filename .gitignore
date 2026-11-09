@@ -1,0 +1,17 @@
+Disc/
+dl/
+iso/
+re/ghidra/
+symbols/
+build/
+generated/
+out/
+userdata/
+*.log
+.DS_Store
+*.app/
+# decompiles of the user's Menu.exe (derived from the original, not published)
+re/*.c
+re/*_raw.c
+re/next.txt
+re/done_fns.txt

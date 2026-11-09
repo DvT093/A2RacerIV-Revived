@@ -1,0 +1,14 @@
+00481698 SetDefPrefix
+00480828 TData_InitDefs
+004803AC TData_Init2
+0047F6E8 TData_Init1
+004825F8 Sound_Init
+00491024 BaseForm_NextBtnDef
+00480448 PlaySample
+00480584 AgentSpeak
+004806B0 AgentSpeakIdx
+00489E40 LoadIndexed
+0048E148 Static_Load
+00481104 IniBackup
+0048A804 GameIni_Load
+004604DC MenuIni_Load
