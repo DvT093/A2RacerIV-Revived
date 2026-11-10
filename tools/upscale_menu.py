@@ -152,6 +152,38 @@ def link_button_states(out_dir):
     return n
 
 
+ESRGAN_ZIP = ("https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.5.0/"
+              "realesrgan-ncnn-vulkan-20220424-macos.zip",
+              "e0ad05580abfeb25f8d8fb55aaf7bedf552c375b5b4d9bd3c8d59764d2cc333a")
+
+
+def fetch_tool():
+    """Real-ESRGAN met zijn eigen modellen (realesrgan-x4plus), als hij ontbreekt."""
+    if os.path.exists(os.path.join(TOOL, "realesrgan-ncnn-vulkan")):
+        return
+    import urllib.request
+    import zipfile
+    url, digest = ESRGAN_ZIP
+    os.makedirs(TOOL, exist_ok=True)
+    z = os.path.join(TOOL, "realesrgan.zip")
+    print("ophalen:", url)
+    with urllib.request.urlopen(url) as r, open(z, "wb") as f:
+        shutil.copyfileobj(r, f)
+    if hashlib.sha256(open(z, "rb").read()).hexdigest() != digest:
+        os.remove(z)
+        sys.exit("fout: %s heeft een andere sha256 dan verwacht" % url)
+    with zipfile.ZipFile(z) as zf:
+        for n in zf.namelist():
+            if n.endswith("/") or not (n == "realesrgan-ncnn-vulkan" or n.startswith("models/")):
+                continue
+            out = os.path.join(TOOL, n)
+            os.makedirs(os.path.dirname(out), exist_ok=True)
+            with zf.open(n) as src, open(out, "wb") as dst:
+                shutil.copyfileobj(src, dst)
+    os.chmod(os.path.join(TOOL, "realesrgan-ncnn-vulkan"), 0o755)
+    os.remove(z)
+
+
 def upscale(src, dst):
     r = subprocess.run(["./realesrgan-ncnn-vulkan", "-i", src, "-o", dst, "-n", MODEL, "-s", str(SCALE),
                         "-m", "models", "-f", "png"],
@@ -170,8 +202,6 @@ def main():
     if os.environ.get("A2R4_SKIP_UPSCALE"):
         print("HD-menu overgeslagen (A2R4_SKIP_UPSCALE)")
         return
-    if not os.path.exists(os.path.join(TOOL, "realesrgan-ncnn-vulkan")):
-        sys.exit("Real-ESRGAN ontbreekt in %s (zie tools/make_texture_pack.py voor de download)" % TOOL)
     only = {n.strip().lower() for n in a.only.split(",")} if a.only else None
     os.makedirs(a.out, exist_ok=True)
     stamps_path = os.path.join(a.out, ".stamps.json")
@@ -190,6 +220,7 @@ def main():
     if not todo:
         print("knopstanden: %d namen" % link_button_states(a.out))
         return
+    fetch_tool()
     with tempfile.TemporaryDirectory(dir=os.path.join(ROOT, "build")) as tmp:
         src, dst = os.path.join(tmp, "in"), os.path.join(tmp, "out")
         os.makedirs(src)
