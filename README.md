@@ -72,6 +72,16 @@ Of zeg in [Claude Code](https://claude.com/claude-code) in deze map: "hier is de
 
 setup.sh haalt de spelbestanden van de CD, zet de spelcode om, bouwt de app, haalt het HD-pack (1,2 GB) en de extra's van Davilex op. De eerste keer duurt het 15-30 minuten. Daarna dubbelklik je op **A2 Racer IV.app**. De CD-image heb je dan niet meer nodig.
 
+## 🔄 Updaten
+
+Is er een nieuwe versie? Draai in dezelfde map:
+
+```sh
+git pull && ./setup.sh
+```
+
+Of zeg in Claude Code: "update het spel". setup.sh haalt ook de nieuwe SwARc en Davilex-RED op en bouwt alleen wat veranderd is, meestal in een paar minuten. De CD-image en het HD-pack heb je niet opnieuw nodig. Alleen als een update de omgezette spelcode raakt, duurt het weer 15-30 minuten.
+
 ## Toetsen in de race
 
 | Toets | Wat het doet |
@@ -128,6 +138,16 @@ cd A2RacerIV-Revived && ./setup.sh ~/Downloads/A2RACER4.bin
 Or tell [Claude Code](https://claude.com/claude-code) in this folder: "here is the CD, set it up".
 
 The first run takes 15-30 minutes. Then double-click **A2 Racer IV.app**. You no longer need the CD image.
+
+## 🔄 Update
+
+Is there a new version? In the same folder, run:
+
+```sh
+git pull && ./setup.sh
+```
+
+Or tell Claude Code: "update the game". setup.sh also fetches the new SwARc and Davilex-RED and only rebuilds what changed, usually in a few minutes. You do not need the CD image or the HD pack again. Only an update that touches the recompiled game code takes 15-30 minutes again.
 
 ## Keys in the race
 Arrows steer and drive, **Cmd** = turbo, **Alt** = handbrake, **Space** = horn (traffic moves aside), **Return** = put the car back on the road, **P** = pause, **1/2/4** = cameras, hold **3** to look back, **5** = on-screen info on/off, **F9** = original or HD, **F10/F11** = anti-aliasing / filtering only.

@@ -50,7 +50,7 @@ Doel: A2 Racer IV - De politie slaat terug! (Davilex, NL, v1.00 20-10-2000 / v1.
 3. **A2 Racer IV-specifiek** (adressen in spel.dat, GameConfig, menuschermen, politie-mods): alleen hier.
 
 ## Wat er is
-- `setup.sh` - van ISO naar app (spelbestanden, Homebrew, submodules, liften en bouwen, HD-pack, extra's, app).
+- `setup.sh` - van ISO naar app (spelbestanden, Homebrew, submodules, liften en bouwen, HD-pack, extra's, app). Ook de updater: `git pull && ./setup.sh` (stap 3 zet de submodules altijd bij, de build is incrementeel). Een fix in SwARc (`a2r4`) of Davilex-RED komt pas bij spelers als de submodule-pointer hier gecommit en gepusht is (zie Davilex-RED `GITHUB.md`, "Een update publiceren").
 - `iso/` - inhoud van de v1.01-CD (291 MB, door `setup.sh` gekopieerd via `hdiutil attach`; ISO: [Archive.org](https://archive.org/details/V1.0A2Racer4DePolitieSlaatTerug)). `dl/extras/` - de twee Davilex-updates uit het Wayback-archief (`setup.sh` haalt ze op). Speldata in `iso/Data/`, handleiding in `iso/Handleiding/Handleiding.pdf`.
 - `re/source_files.txt` - 120 gelekte bronpaden. `re/findings.md` - menu-bevindingen. `re/ghidra/A2Menu` - Ghidra-project van Menu.exe.
 - `src/menu/` - het native menu (zie Menu). `mods/menu/` - menu-mods (zelfde idee als VR).
