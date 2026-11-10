@@ -1,8 +1,6 @@
 # A2 Racer IV - native Mac-port (decomp)
 
-Doel: A2 Racer IV - De politie slaat terug! (Davilex, NL, v1.00 20-10-2000 / v1.01 22-12-2000) **native** op Apple Silicon, volledig moddable, 60 fps. Zelfde aanpak als `../Vakantieracer`: static recompilation met SwARc (x86 -> C++ -> clang arm64), daarna functie voor functie herschrijven naar leesbare C. Lees eerst `../Vakantieracer/CLAUDE.md`: methode, tooling en regels gelden hier ook. Dit bestand noemt alleen wat anders is.
-
-## Doel en takenlijst
+Doel: A2 Racer IV - De politie slaat terug! (Davilex, NL, v1.00 20-10-2000 / v1.01 22-12-2000) **native** op Apple Silicon, volledig moddable, 60 fps. Zelfde aanpak als `../Vakantieracer`: static recompilation met SwARc (x86 -> C++ -> clang arm64), daarna functie voor functie herschrijven naar leesbare C. Zusterprojecten: [Vakantie Racer Revived](https://github.com/DvT093/VakantieRacer-Revived) (methode, tooling en regels gelden hier ook). Dit bestand noemt alleen wat anders is.
 
 ## Welke exe we porten
 **`iso/Data/spel.dat`** (sha256 `ccd1b034...f62286b`). Die is **byte-voor-byte gelijk in v1.00 en v1.01**: de patch veranderde alleen `Raser.ini` (`VERSION=`), `version.txt`, en voegde splash-BMP's, `default.txt` en `A2Racer4.icd` toe. Er is dus maar één gamecode; alle adressen (`// 0x4xxxxx`) verwijzen naar deze exe.
@@ -47,21 +45,18 @@ Doel: A2 Racer IV - De politie slaat terug! (Davilex, NL, v1.00 20-10-2000 / v1.
 - Anders dan het origineel: Hunny (MS Agent) is een plaatje met haar vragen uit `Agent.ini`, zonder de antwoorden uit `Menu.hlp`; "Geavanceerd" (videokaart) en "Instellen" (toetsen, stuur) doen nog niets; Internet toont alleen de vraag; de debug-popup (Money = 300 e.d.) ontbreekt; de spelerskaarten gebruiken `pchNN` van het Tour-karakter (het lettertype op de kaart is een gok); de tijden van WinFinal-stemmen (6 s) zijn geschat, niet gemeten.
 
 ## Drie lagen (afspraak uit Vakantie Racer, hier de derde gebruiker)
-1. **Algemeen Windows/DirectX**: in SwARc, A2's eigen worktree `../SwARc-a2r4` (branch `a2r4`, afgesplitst van `legacy-dx5`). Fixes van Vakantie Racer neem je over met cherry-pick; nooit in `../SwARc-dx5` werken.
-2. **RED-engine** (archief, `.d3d`, ini-structuur, Delphi-menu-onderdelen): generiek, naar `../Davilex-RED`. Tot die repo er is: importeer uit `../Vakantieracer/re/scripts/`, kopieer niet.
+1. **Algemeen Windows/DirectX**: in SwARc, branch `a2r4` (submodule `external/SwARc`, lokaal ook de worktree `../SwARc-a2r4`; afgesplitst van `legacy-dx5`). Fixes van Vakantie Racer neem je over met cherry-pick; nooit in `../SwARc-dx5` werken.
+2. **RED-engine** (archief, `.d3d`, ini-structuur, Delphi-menu-onderdelen): generiek, naar Davilex-RED (submodule `external/Davilex-RED`).
 3. **A2 Racer IV-specifiek** (adressen in spel.dat, GameConfig, menuschermen, politie-mods): alleen hier.
-Bij elke nieuwe functie: vraag eerst in welke laag hij hoort.
 
 ## Wat er is
-- `Disc/` - de zip zoals gedownload (beide ISO's). Bron, niet aankomen.
-- `dl/` - `v100.iso` (label `200902171648`, 405 MB) en `v101.iso` (label `A2RACER`, 306 MB).
-- `iso/` - inhoud van de v1.01-CD (291 MB, gekopieerd via `hdiutil attach`). Speldata in `iso/Data/`, handleiding in `iso/Handleiding/Handleiding.pdf`.
+- `setup.sh` - van ISO naar app (spelbestanden, Homebrew, submodules, liften en bouwen, HD-pack, extra's, app).
+- `iso/` - inhoud van de v1.01-CD (291 MB, door `setup.sh` gekopieerd via `hdiutil attach`; ISO: [Archive.org](https://archive.org/details/V1.0A2Racer4DePolitieSlaatTerug)). `dl/extras/` - de twee Davilex-updates uit het Wayback-archief (`setup.sh` haalt ze op). Speldata in `iso/Data/`, handleiding in `iso/Handleiding/Handleiding.pdf`.
 - `re/source_files.txt` - 120 gelekte bronpaden. `re/findings.md` - menu-bevindingen. `re/ghidra/A2Menu` - Ghidra-project van Menu.exe.
 - `src/menu/` - het native menu (zie Menu). `mods/menu/` - menu-mods (zelfde idee als VR).
 - `re/ghidra/A2Racer4` (Ghidra-project van spel.dat), `symbols/`, `generated/` (gitignored). `re/scripts/resolve_jumptables.py` vult de sprongtabellen aan die Ghidra mist.
 
 ## Regels
-- **Laptop 16 GB**: max één zware job (Ghidra `MAXMEM=2G` of een build), nooit parallel, ook niet naast een VR- of ER-build. Pauzeren bij <2 GB vrij.
 - Originele data, ISO's en exe's nooit committen of publiceren.
 - Elke gedecompileerde functie: originele adres in een comment (`// 0x4xxxxx`).
 - Verifieer gedrag tegen het origineel (screenshots/waarden), niet op gevoel.
