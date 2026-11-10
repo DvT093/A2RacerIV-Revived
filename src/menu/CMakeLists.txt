@@ -3,7 +3,7 @@
 # The menu engine (DFM, TGDI components, painter, video) and the race
 # launcher are shared with Vakantie Racer and Europe Racer in
 # ../Davilex-RED/menu (see its MIGRATION.md).
-set(DAVILEX_RED_DIR ${CMAKE_SOURCE_DIR}/../Davilex-RED CACHE PATH "Shared Davilex RED code")
+# DAVILEX_RED_DIR: set in the top-level CMakeLists.txt (external/ or ../).
 include(${DAVILEX_RED_DIR}/menu/davi_menu.cmake)
 
 file(GLOB A2R4_MENU_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/a2r4/*.cpp)
