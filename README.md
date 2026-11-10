@@ -5,7 +5,7 @@
 ![macOS](https://img.shields.io/badge/macOS-Apple%20Silicon-black?logo=apple) ![60 fps](https://img.shields.io/badge/60-fps-brightgreen) ![HD](https://img.shields.io/badge/textures-4x%20HD-orange) ![Menu 4K](https://img.shields.io/badge/menu-4K-yellow) ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
 
 > [!IMPORTANT]
-> **Je hebt de CD van A2 Racer IV nodig.** De game zelf zit niet in deze repo, alleen de port. Download `A2RACER4.bin` via [Nationaal Archief Educatieve Games](https://nationaalarchiefeducatievegames.nl/archief/a2-racer-iv-de-politie-slaat-terug/) ([direct op Archive.org](https://archive.org/download/a2rcriv/A2RACER4.bin), 469 MB) en geef hem aan `setup.sh`. Een ISO van v1.00 of v1.01 werkt ook.
+> **De game zelf zit niet in deze repo, alleen de port.** `setup.sh` haalt de CD-image `A2RACER4.bin` (469 MB) zelf van [Archive.org](https://archive.org/download/a2rcriv/A2RACER4.bin), te vinden via [Nationaal Archief Educatieve Games](https://nationaalarchiefeducatievegames.nl/archief/a2-racer-iv-de-politie-slaat-terug/), en checkt hem. Heb je hem al, of een ISO van v1.00 of v1.01, geef hem dan mee: `./setup.sh ~/Downloads/A2RACER4.bin`.
 
 ![Het hoofdmenu in 4K](docs/screenshots/menu-hoofdmenu-4k.jpg)
 
@@ -59,18 +59,18 @@ In deze repo zitten **geen spelbestanden**. `setup.sh` maakt alles uit de CD (zi
 ## 🧰 Wat je nodig hebt
 - Een Mac met Apple Silicon (M1 of nieuwer)
 - `A2RACER4.bin` (zie boven)
-- [Homebrew](https://brew.sh); setup.sh zegt precies wat je nog moet installeren
+- [Homebrew](https://brew.sh); ontbreekt er iets, dan vraagt setup.sh of hij het mag installeren
 
 ## 🚀 Installeren
 
 ```sh
 git clone --recursive https://github.com/DvT093/A2RacerIV-Revived.git
-cd A2RacerIV-Revived && ./setup.sh ~/Downloads/A2RACER4.bin
+cd A2RacerIV-Revived && ./setup.sh
 ```
 
-Of zeg in [Claude Code](https://claude.com/claude-code) in deze map: "hier is de CD, zet het op".
+Of zeg in [Claude Code](https://claude.com/claude-code) in deze map: "zet het op".
 
-setup.sh haalt de spelbestanden van de CD, zet de spelcode om, bouwt de app, haalt het HD-pack (1,2 GB) en de extra's van Davilex op. De eerste keer duurt het 15-30 minuten. Daarna dubbelklik je op **A2 Racer IV.app**. De CD-image heb je dan niet meer nodig.
+setup.sh haalt de CD-image en de spelbestanden, zet de spelcode om, bouwt de app, haalt het HD-pack (1,2 GB) en de extra's van Davilex op. De eerste keer duurt het 5-15 minuten. Aan het eind vraagt hij of er een alias op je bureaublad moet; daarna dubbelklik je daarop of op **A2 Racer IV.app**. De CD-image (in `dl/`) heb je dan niet meer nodig.
 
 ## 🔄 Updaten
 
@@ -80,7 +80,7 @@ Is er een nieuwe versie? Draai in dezelfde map:
 git pull && ./setup.sh
 ```
 
-Of zeg in Claude Code: "update het spel". setup.sh haalt ook de nieuwe SwARc en Davilex-RED op en bouwt alleen wat veranderd is, meestal in een paar minuten. De CD-image en het HD-pack heb je niet opnieuw nodig. Alleen als een update de omgezette spelcode raakt, duurt het weer 15-30 minuten.
+Of zeg in Claude Code: "update het spel". setup.sh haalt ook de nieuwe SwARc en Davilex-RED op en bouwt alleen wat veranderd is, meestal in een paar minuten. De CD-image en het HD-pack heb je niet opnieuw nodig. Alleen als een update de omgezette spelcode raakt, duurt het weer 5-15 minuten.
 
 ## Toetsen in de race
 
@@ -119,25 +119,25 @@ Davilex' A2 Racer IV - The Cop's Revenge (2000, a Dutch racing game, original ti
 No Wine, no emulator: the game code from the CD is recompiled into a real Mac app.
 
 > [!IMPORTANT]
-> **You need the A2 Racer IV CD.** The game itself is not in this repo, only the port. Download `A2RACER4.bin` via [Nationaal Archief Educatieve Games](https://nationaalarchiefeducatievegames.nl/archief/a2-racer-iv-de-politie-slaat-terug/) ([directly on Archive.org](https://archive.org/download/a2rcriv/A2RACER4.bin), 469 MB) and give it to `setup.sh`. An ISO of v1.00 or v1.01 works too.
+> **The game itself is not in this repo, only the port.** `setup.sh` fetches the CD image `A2RACER4.bin` (469 MB) from [Archive.org](https://archive.org/download/a2rcriv/A2RACER4.bin), listed by [Nationaal Archief Educatieve Games](https://nationaalarchiefeducatievegames.nl/archief/a2-racer-iv-de-politie-slaat-terug/), and checks it. Already have it, or an ISO of v1.00 or v1.01? Pass it along: `./setup.sh ~/Downloads/A2RACER4.bin`.
 
 This repo contains **no game files**. `setup.sh` builds everything from the CD (see above). The HD pack is attached to [release hd-v1](https://github.com/DvT093/A2RacerIV-Revived/releases/tag/hd-v1); `setup.sh` downloads it for you.
 
 ## 🧰 What you need
 - A Mac with Apple Silicon (M1 or newer)
 - `A2RACER4.bin` (see above)
-- [Homebrew](https://brew.sh); setup.sh tells you exactly what to install
+- [Homebrew](https://brew.sh); if something is missing, setup.sh asks whether to install it
 
 ## 🚀 Install
 
 ```sh
 git clone --recursive https://github.com/DvT093/A2RacerIV-Revived.git
-cd A2RacerIV-Revived && ./setup.sh ~/Downloads/A2RACER4.bin
+cd A2RacerIV-Revived && ./setup.sh
 ```
 
-Or tell [Claude Code](https://claude.com/claude-code) in this folder: "here is the CD, set it up".
+Or tell [Claude Code](https://claude.com/claude-code) in this folder: "set it up".
 
-The first run takes 15-30 minutes. Then double-click **A2 Racer IV.app**. You no longer need the CD image.
+The first run takes 5-15 minutes. At the end it offers an alias on your desktop; then double-click that or **A2 Racer IV.app**. You no longer need the CD image (in `dl/`).
 
 ## 🔄 Update
 
@@ -147,7 +147,7 @@ Is there a new version? In the same folder, run:
 git pull && ./setup.sh
 ```
 
-Or tell Claude Code: "update the game". setup.sh also fetches the new SwARc and Davilex-RED and only rebuilds what changed, usually in a few minutes. You do not need the CD image or the HD pack again. Only an update that touches the recompiled game code takes 15-30 minutes again.
+Or tell Claude Code: "update the game". setup.sh also fetches the new SwARc and Davilex-RED and only rebuilds what changed, usually in a few minutes. You do not need the CD image or the HD pack again. Only an update that touches the recompiled game code takes 5-15 minutes again.
 
 ## Keys in the race
 Arrows steer and drive, **Cmd** = turbo, **Alt** = handbrake, **Space** = horn (traffic moves aside), **Return** = put the car back on the road, **P** = pause, **1/2/4** = cameras, hold **3** to look back, **5** = on-screen info on/off, **F9** = original or HD, **F10/F11** = anti-aliasing / filtering only.
