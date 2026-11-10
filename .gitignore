@@ -1,8 +1,10 @@
+# Originele game-data (copyright Davilex) - nooit committen
 Disc/
 dl/
 iso/
+*.iso
+# Ghidra-projecten (groot, lokaal te maken)
 re/ghidra/
-symbols/
 build/
 generated/
 out/
@@ -22,3 +24,7 @@ shots/
 run_*.log
 mods/menu/local/
 __pycache__/
+# Persoonlijke Claude-werkafspraken (Claude Code leest hem wel)
+CLAUDE.local.md
+# HD-pack-marker van setup.sh
+.hd-pack
